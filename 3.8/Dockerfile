@@ -12,24 +12,17 @@ RUN yum -y install openssl-devel bzip2-devel libffi-devel
 # check we have gcc
 RUN gcc --version
 
-# let's get python
-# RUN yum -y install wget
-# RUN wget https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz
-# RUN tar xvf Python-3.8.3.tgz
-
-
-
-# make it from source
-# RUN tar xvf Python-3.8.3.tgz
-# WORKDIR Python-3.8.3
-# RUN ./configure --enable-optimizations
-# RUN make altinstall
-
-
+# install pyenv
 RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 ENV HOME  /root
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+# use pyenv to install latest version
 RUN pyenv install 3.8.3
+
+# set it as global
 RUN pyenv global 3.8.3
+
+# check python version
 RUN python --version
